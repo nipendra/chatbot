@@ -114,6 +114,10 @@ nav {
     height: 25px;
 }
 
+#genImg {
+    color: rgb(35, 17, 232);
+}
+
 form input {
     max-width: 60%;
     width: calc(100% - 120px);
@@ -136,6 +140,7 @@ form input {
     flex-direction: column;
     gap: 20px;
     padding: 20px;
+    overflow-y: auto;
 }
 
 .user,
@@ -147,6 +152,16 @@ form input {
     background-color: rgb(11, 16, 17);
     border-radius: 20px;
     font-size: 20px;
+    display: flex;
+    align-items: start;
+    gap: 20px;
+    justify-content: start;
+    flex-direction: column;
+}
+
+.user img {
+    width: 200px;
+    border-radius: 20px;
 }
 
 .pop-up {
