@@ -4,8 +4,11 @@ export const dataContext = createContext();
 
 function UserContext({ children }) {
     const [startRes, setStartRes] = useState(false);
+    const [popUp, setPopUp] = useState(false);
+
     let value = {
-        startRes, setStartRes
+        startRes, setStartRes,
+        popUp, setPopUp,
     };
     return (
         <dataContext.Provider value={value}>
