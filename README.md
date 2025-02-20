@@ -10,7 +10,6 @@ This project is a Next-Gen AI Chatbot built using **React JS**, integrating **Ge
 - **AI Image Generation**: Integrates **Hugging Face API** to generate images based on user input.
 - **Image Uploading**: Supports uploading images for enhanced AI interactions.
 - **React-Based UI**: A modern and responsive frontend built with React JS.
-- **Hosting & Deployment**: Fully deployable with hosting support.
 
 ---
 
