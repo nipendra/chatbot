@@ -39,7 +39,6 @@ function Home() {
         prevUser.prompt = input;
 
         let result = await query().then((e) => {
-            console.log(e);
             let url = URL.createObjectURL(e);
             setImageUrl(url);
             setFeature('chat');
