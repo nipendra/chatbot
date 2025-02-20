@@ -1,6 +1,8 @@
 import { prevUser } from "./context/UserContext";
 
-const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCBX3YvTLm_GrPtwAkYyjV0c1ElvVVCdz4";
+const geminiApiKey = import.meta.env.VITE__GEMINI_API_KEY;
+
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`;
 
 export async function generateResponse() {
     const RequestOption = {
