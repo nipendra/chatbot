@@ -9,15 +9,14 @@ import '../App.css';
 import { dataContext, user, prevUser } from '../context/UserContext';
 import Chat from './Chat';
 import { generateResponse } from '../gemini';
+import { query } from '../huggingFace';
 
 function Home() {
-    let { startRes, setStartRes, popUp, setPopUp, input, setInput, feature, setFeature, showResult, setShowResult } = useContext(dataContext);
+    let { startRes, setStartRes, popUp, setPopUp, input, setInput, feature, setFeature, setImageUrl, setShowResult, setPrevFeature } = useContext(dataContext);
     async function handleSubmit(e) {
-        if (!input) {
-            return;
-        }
-        e.preventDefault();
         setStartRes(true);
+        setPrevFeature(feature);
+        setShowResult('');
         prevUser.data = user.data;
         prevUser.mime_type = user.mime_type;
         prevUser.imgUrl = user.imgUrl;
@@ -25,13 +24,32 @@ function Home() {
         setInput('');
         const result = await generateResponse();
         setShowResult(result);
+        setFeature('chat');
         user.data = null;
         user.mime_type = null;
         user.imgUrl = null;
     }
 
+    async function generateImage() {
+        setStartRes(true);
+        setPrevFeature(feature);
+
+        setImageUrl('');
+
+        prevUser.prompt = input;
+
+        let result = await query().then((e) => {
+            console.log(e);
+            let url = URL.createObjectURL(e);
+            setImageUrl(url);
+            setFeature('chat');
+            setInput('');
+        })
+
+    };
+
     const handleImage = (e) => {
-        setFeature('upimg');
+        setFeature('upImg');
         const file = e.target.files[0];
         let reader = new FileReader();
         reader.onload = (event) => {
@@ -46,7 +64,11 @@ function Home() {
     return (
         <div className='home'>
             <nav>
-                <div className='logo'>
+                <div className='logo' onClick={() => {
+                    setStartRes(false);
+                    setFeature('chat');
+
+                }}>
                     Smart AI Bot
                 </div>
             </nav>
@@ -69,26 +91,42 @@ function Home() {
                         </div>
                         <div className="chat" onClick={() => setFeature('chat')}>
                             <RiChatAiFill />
-                            <span>Chat with Botjj</span>
+                            <span>Chat with Bot</span>
                         </div>
                     </div>
                 </div>
             }
-            <form className="input-box" onSubmit={(e) => handleSubmit(e)}>
+
+            <form className="input-box" onSubmit={(e) => {
+                e.preventDefault();
+                if (!input) {
+                    return;
+                }
+                if (feature == 'genImg') {
+                    generateImage();
+                } else {
+                    handleSubmit(e)
+                }
+            }}>
                 {popUp &&
                     <div className="pop-up">
                         <div className="select-up" onClick={() => {
+                            setPopUp(false);
                             document.getElementById('inputImg').click();
                         }}>
                             <LuImagePlus />
                             <span>Upload Image</span>
                         </div>
-                        <div className="select-gen" onClick={() => setFeature('genImg')}>
+                        <div className="select-gen" onClick={() => {
+                            setPopUp(false);
+                            setFeature('genImg');
+                        }}>
                             <RiImageAiFill />
                             <span>Generate Image</span>
                         </div>
                     </div>
                 }
+                <img src={user.imgUrl} alt="" id="input-image" />
                 <div id="add" onClick={() => setPopUp((prev) => !prev)}>
                     {feature === "genImg" ? <RiImageAiFill id='genImg' /> : <FiPlus />}
                 </div>

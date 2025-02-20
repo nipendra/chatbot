@@ -164,6 +164,24 @@ form input {
     border-radius: 20px;
 }
 
+#input-image {
+    height: 100px;
+    border-radius: 20px;
+    position: absolute;
+    left: 15%;
+    bottom: 120px;
+    box-shadow: 2px 2px 10px blue;
+}
+
+.ai img {
+    width: 200px;
+    border-radius: 20px;
+}
+
+.logo {
+    cursor: pointer;
+}
+
 .pop-up {
     width: 200px;
     height: 120px;
